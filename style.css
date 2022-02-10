@@ -1,0 +1,83 @@
+* {
+    padding: 0;
+    margin: 0;
+    outline: 0;
+  }
+  body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.95);
+  }
+  #zoom {
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  #leftarrow,#rightarrow  {
+    background-color: transparent;
+    cursor: pointer;
+
+  }
+  #leftarrow svg{
+    width: 30px;
+    height: 30px;
+  }
+  #rightarrow svg{
+    width: 30px;
+    height: 30px;
+  }
+
+  div#zoom > img {
+  transform: scale(1);
+  transform-origin: center;
+  transition: transform 0.6s ; 
+  width: 600px;
+  height: 500px;
+  }
+
+  .zoom-tools {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    margin-top: 18px;
+    z-index: 1000;
+
+  }
+
+  .change-tool {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+  }
+  .page-number {
+    font-size: 18px;
+    color: white;
+    margin: 0px 10px;
+  }
+
+  .zoom-btns {
+    display: flex;
+    align-items: center;
+  }
+
+  .zoom-btns div {
+    color: white;
+    font-size: 15px;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+
+  .zoom-in svg,.zoom-out svg {
+      width: 30px;
+      height: 30px;
+  }
+  .zoom-in svg path,.zoom-out svg path {
+    fill: white;
+  }

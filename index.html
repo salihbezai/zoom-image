@@ -1,0 +1,149 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>ZOOM-Image</title>
+</head>
+<body>
+        <div id="zoom">
+          
+          <img id="image" src="images/bird.jpg"  alt="zoom">
+          <div class="zoom-tools">
+            <div class="change-tool">
+              <div id="leftarrow">
+                <svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M685.248 104.704C697.246 116.706 703.986 132.982 703.986 149.952C703.986 166.923 697.246 183.198 685.248 195.2L368.448 512L685.248 828.8C696.906 840.871 703.357 857.037 703.211 873.818C703.065 890.598 696.335 906.65 684.469 918.517C672.602 930.383 656.55 937.113 639.77 937.259C622.989 937.405 606.823 930.954 594.752 919.296L232.704 557.248C220.706 545.246 213.966 528.971 213.966 512C213.966 495.03 220.706 478.754 232.704 466.752L594.752 104.704C606.754 92.706 623.03 85.9658 640 85.9658C656.971 85.9658 673.246 92.706 685.248 104.704V104.704Z" fill="white"/>
+                  </svg>              
+              </div>
+              <div class="page-number">
+                <span id="current-index"></span>
+                <span >/</span>
+                <span id="total-imgs"></span>
+              </div>
+              <div id="rightarrow">
+                <svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M338.752 104.704C326.754 116.706 320.014 132.982 320.014 149.952C320.014 166.923 326.754 183.198 338.752 195.2L655.552 512L338.752 828.8C327.094 840.871 320.643 857.037 320.789 873.818C320.935 890.598 327.665 906.65 339.532 918.517C351.398 930.383 367.45 937.113 384.23 937.259C401.011 937.405 417.177 930.954 429.248 919.296L791.296 557.248C803.294 545.246 810.034 528.971 810.034 512C810.034 495.03 803.294 478.754 791.296 466.752L429.248 104.704C417.246 92.706 400.971 85.9658 384 85.9658C367.029 85.9658 350.754 92.706 338.752 104.704V104.704Z" fill="white"/>
+                  </svg>              
+              </div>
+            </div>
+            <div class="zoom-btns">
+              <div class="zoom-in" id="zoom-in">
+                <svg width="717" height="766" viewBox="0 0 717 766" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M541 517L717 693L645 766L461 581C416 606 364 620 310 620C139 620 0 481 0 310C0 139 139 0 310 0C481 0 621 139 621 310C621 390 590 463 541 517ZM86 310C86 434 186 533 310 533C433 533 534 434 534 310C534 186 433 87 310 87C186 87 86 186 86 310ZM346 275H470V346H346V469H275V346H152V275H275V151H346V275Z" fill="black"/>
+                  </svg>
+                  
+              </div>
+              <div class="zoom-out" id="zoom-out">
+                <svg width="717" height="766" viewBox="0 0 717 766" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M541 517L717 693L645 766L461 581C416 606 364 620 310 620C139 620 0 481 0 310C0 139 139 0 310 0C481 0 621 139 621 310C621 390 590 463 541 517ZM86 310C86 434 186 533 310 533C433 533 534 434 534 310C534 186 433 87 310 87C186 87 86 186 86 310ZM142 275H479V346H142V275Z" fill="black"/>
+                </svg>
+                  
+              </div>
+            </div>
+          
+          </div>
+        
+      </div>
+    <script>
+      var zoom = document.getElementById('zoom')
+      var image = document.getElementById('image')
+          mousedown = false
+          pointX=0
+          pointY=0
+          scale = 1
+          maxScale = 4
+          minScale = 1
+      var zoomInBtn = document.getElementById('zoom-in')
+      var zoomOutBtn = document.getElementById('zoom-out')
+      var leftArrow = document.getElementById('leftarrow')
+      var rightArrow = document.getElementById('rightarrow')
+      var currentIndex = document.getElementById('current-index')
+      var totalImgs = document.getElementById('total-imgs')
+      var images = [
+        'images/bird.jpg',
+        'images/animal.jpg',
+        'images/draw.jpg',
+        'images/pc.jpg',
+      ]
+      var imgIndex  = 0
+      var indexMax = images.length - 1
+      currentIndex.innerText = 1
+      totalImgs.innerText = images.length
+      var indexMin = 0
+      // set transform and transformorigin properties
+      function setTransform(){
+        if(scale >= maxScale){
+          scale = maxScale
+        }
+        if(scale <= minScale ){
+          scale = minScale
+        }
+        image.style.transform=`scale(${scale})`
+        image.style.transformOrigin = `${pointX}% ${pointY}%`
+      }
+
+      // onmousedown
+      zoom.addEventListener('mousedown',(e)=>{
+        console.log('down')
+        mousedown = true
+      })
+
+      // onmouse move
+      image.addEventListener('mousemove',(e)=>{
+          pointX = (e.offsetX / image.offsetWidth * 100)
+          pointY = (e.offsetY / image.offsetHeight * 100)          
+      })
+
+      // on mouse wheel
+      image.addEventListener('wheel',(e)=>{
+        var delta = e.deltaY
+        if(delta < 0 ){
+          scale +=  0.8
+        }else{
+          scale -= 0.8
+        }
+        setTransform()
+      })
+      
+      // zoom-in btn click event handler
+      zoomInBtn.addEventListener('click',(e)=>{
+        console.log('click')
+        scale += 0.8
+        pointX = 50
+        pointY = 50
+        setTransform()
+      })
+      // zoom-out btn click event handler
+      zoomOutBtn.addEventListener('click',(e)=>{
+        scale -= 0.8
+        pointX = 50
+        pointY = 50
+        setTransform()
+      })
+      // previous image
+      leftArrow.addEventListener('click',(e)=>{
+        if(imgIndex > indexMin){
+          imgIndex -= 1
+          let imgsrc = images.filter((img,index)=>( index == imgIndex  ))
+          currentIndex.innerText = imgIndex + 1 // we add one because array starts from 0
+          image.src = imgsrc[0]
+        }
+       
+      })
+
+      // next image
+      rightArrow.addEventListener('click',(e)=>{
+        if(imgIndex < indexMax ){
+          imgIndex += 1
+          let imgsrc = images.filter((img,index)=>( index == imgIndex  ))
+          currentIndex.innerText = imgIndex + 1
+          image.src = imgsrc[0]
+        }
+       
+      })
+
+    </script>
+</body>
+</html>
